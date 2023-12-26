@@ -5,9 +5,16 @@ const Users=require("../models/usersModel")
 // post
 router.post("/",async(req,res)=>{
     const postUser=req.body
-    const newUser=new Users(postUser)
-    await newUser.save()
-    res.send(newUser)
+    let findUser= await Users.findOne({email:postUser.email})
+
+    if(findUser){
+       return res.status(201).send("element var")
+    }else{
+        const newUser=new Users(postUser)
+        await newUser.save()
+        res.send(newUser)
+    }
+    
 })
 //get all users
 router.get("/",async(req,res)=>{
